@@ -23,8 +23,8 @@ export const changeView = (route) => {
             break;
         }
         case '#/body': {
-            main.appendChild(components.body());
-            console.log('ya debió mostrar boton')
+            var nombre = sessionStorage.getItem("Nombre");
+            main.appendChild(components.body(nombre));
             break;
         }
         default: {
@@ -34,7 +34,9 @@ export const changeView = (route) => {
     }
 }
 
-/* export const init = () => {
-    window.addEventListener('load', changeTmp(window.location.hash))
-    if (("onhashchange" in window)) window.onhashchange = () => changeTmp(window.location.hash)
-} */
+ export const init = () => {
+    window.addEventListener('load', changeTmp(window.location.hash));
+    event.currentTarget.addEventListener('hashchange', () => {
+      changeTmp(window.location.hash);
+    })
+}
