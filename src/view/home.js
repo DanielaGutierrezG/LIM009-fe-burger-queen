@@ -7,10 +7,9 @@ export default () =>{
 
    div.innerHTML = tmp1;
    const button = div.querySelector('#enter');
-  button.addEventListener('click', () => {
+    button.addEventListener('click', () => {
     changehash('#/body')
-    console.log('ya tiene su hash')
-   });
+    });
    
    return div;
 };
