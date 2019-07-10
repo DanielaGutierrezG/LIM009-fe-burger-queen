@@ -1,4 +1,5 @@
-import { components } from '../view-controller/index.js'
+import { components } from '../view-controller/index.js';
+
 export const changehash = (hash) => {
     window.location.hash = hash;
 }
