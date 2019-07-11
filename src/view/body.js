@@ -29,56 +29,10 @@ export default (name) => {
     .addEventListener('click', () => {
         const general = div.querySelector('#general');
         general.innerHTML = `
-        <div class="row">
-    <div class="col s12 m7">
-      <div class="card">
-        <div class="card-image">
-          <img src="../images/camericano.jpg">
-        </div>
-        <div class="card-action">
-        <button value="Café Americano" class="allbtn waves-effect waves-teal btn-flat"> Café Americano </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col s12 m7">
-      <div class="card">
-        <div class="card-image">
-          <img src="../images/cleche.jpg">
-        </div>
-        <div class="card-action">
-        <button value="Café con leche" class="allbtn waves-effect waves-teal btn-flat"> Café con leche </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col s12 m7">
-      <div class="card">
-        <div class="card-image">
-          <img src="../images/sandwich.jpg">
-        </div>
-        <div class="card-action">
-        <button value="Sandwich jamón y queso" class="allbtn waves-effect waves-teal btn-flat"> Sandwich de jamón y queso </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col s12 m7">
-      <div class="card">
-        <div class="card-image">
-          <img src="../images/jugo.jpg">
-        </div>
-        <div class="card-action">
-        <button value ="Jugo de frutas natural" class="allbtn waves-effect waves-teal btn-flat"> Jugo de frutas natural </button>
-        </div>
-      </div>
-    </div>
+        <button value="Café Americano" class="allbtn"> Café Americano </button>
+        <button value="Café con leche" class="allbtn"> Café con leche </button>
+        <button value="Sandwich jamón y queso" class="allbtn"> Sandwich de jamón y queso </button>
+        <button value ="Jugo de frutas natural" class="allbtn"> Jugo de frutas natural </button>
   </div> `;
   showOrders();
 
