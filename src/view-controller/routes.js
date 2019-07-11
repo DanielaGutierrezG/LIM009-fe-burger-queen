@@ -1,4 +1,6 @@
 import { components } from '../view-controller/index.js'
+import {readBreak, totalList} from '../view-controller/view_controller.js'
+import { readData } from '../firestore.js';
 export const changehash = (hash) => {
     window.location.hash = hash;
 }
@@ -23,8 +25,13 @@ export const changeView = (route) => {
             break;
         }
         case '#/body': {
-            main.appendChild(components.body());
-            console.log('ya debió mostrar boton')
+            var nombre = sessionStorage.getItem("Nombre"); 
+            main.appendChild(components.body(nombre));
+            readData('menumañana', (query) => {
+               readBreak(query);
+               totalList();
+            });
+            
             break;
         }
         default: {
@@ -34,7 +41,9 @@ export const changeView = (route) => {
     }
 }
 
-/* export const init = () => {
-    window.addEventListener('load', changeTmp(window.location.hash))
-    if (("onhashchange" in window)) window.onhashchange = () => changeTmp(window.location.hash)
-} */
+ export const init = () => {
+    window.addEventListener('load', changeTmp(window.location.hash));
+    event.currentTarget.addEventListener('hashchange', () => {
+      changeTmp(window.location.hash);
+    })
+}
