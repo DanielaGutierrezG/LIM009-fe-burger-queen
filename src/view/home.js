@@ -6,12 +6,12 @@ export default () =>{
 
    div.innerHTML = tmp1;
 
-   div.querySelector(`#addClient`)
+   div.querySelector('#addClient')
       .addEventListener('click', () => {
+        /* listAlmu */
           let name = document.getElementById('name').value;
           sessionStorage.setItem("Nombre", name);
           document.getElementById('name').value = "";
       })
-   
    return div
 };
