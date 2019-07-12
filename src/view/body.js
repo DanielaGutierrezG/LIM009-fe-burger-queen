@@ -1,5 +1,5 @@
-import {readBreak} from '../view-controller/view_controller.js'
-import {readData} from '../firestore.js'
+import { readBody } from '../view-controller/view_controller.js'
+import { readData } from '../firestore.js'
 
 export default (name) => {
     const div = document.createElement('div');
@@ -8,15 +8,33 @@ export default (name) => {
         CLIENTE : ${name}
     </header>
     
-    <div class = "col-sm-6" id='btns'>
+    <div class = "" id='btns'>
         <button id= 'breakfast'>Desayuno</button>
         <button id= 'lunch'>Almuerzo y cena</button>
         <button id= 'additional'>Extras</button>
     </div>
 
     <div id="containerBody" class=''></div>
-    <div class = "col-sm-6" id="pedidos">
-        <ul id="listPedidos"></ul>
+    <div id='containerTable'>
+        <h2>Tu lista de Pedidos</h2>
+        <table id="tableOrder">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                </tr>
+            </thead>
+            <tboby>
+                <tr>
+                </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+              <td>TOTAL</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
     </div>
    `;
 
@@ -25,20 +43,20 @@ export default (name) => {
     const btnBreakfast = div.querySelector('#breakfast');
     btnBreakfast.addEventListener('click', () => {
         readData('menumañana', (query) => {
-            readBreak(query);
+            readBody(query);
         });
     })
 
     const btnLunch = div.querySelector('#lunch');
     btnLunch.addEventListener('click', () => {
         readData('menutarde', (query) => {
-            readBreak(query);
+            readBody(query);
         }); 
     })
     const btnAdditional = div.querySelector('#additional');
     btnAdditional.addEventListener('click', () => {
         readData('extras', (query) => {
-            readBreak(query);
+            readBody(query);
         });
     })    
     return div;
