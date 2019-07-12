@@ -1,5 +1,5 @@
-import {readBreak} from '../view-controller/view_controller.js'
-import {readData} from '../firestore.js'
+import { readBody } from '../view-controller/view_controller.js'
+import { readData } from '../firestore.js'
 
 export default (name) => {
     const div = document.createElement('div');
@@ -15,9 +15,10 @@ export default (name) => {
     </div>
 
     <div id="containerBody" class=''></div>
-    <div class = "col-sm-6" id="pedidos">
-        <ul id="listPedidos"></ul>
-    </div>
+    <form class = "col-sm-6" id="pedidos">
+        <ul id="productsList"></ul>
+        <div id='priceList'></div>
+    </form>
    `;
 
     div.innerHTML = tmp2;
@@ -25,20 +26,20 @@ export default (name) => {
     const btnBreakfast = div.querySelector('#breakfast');
     btnBreakfast.addEventListener('click', () => {
         readData('menumañana', (query) => {
-            readBreak(query);
+            readBody(query);
         });
     })
 
     const btnLunch = div.querySelector('#lunch');
     btnLunch.addEventListener('click', () => {
         readData('menutarde', (query) => {
-            readBreak(query);
+            readBody(query);
         }); 
     })
     const btnAdditional = div.querySelector('#additional');
     btnAdditional.addEventListener('click', () => {
         readData('extras', (query) => {
-            readBreak(query);
+            readBody(query);
         });
     })    
     return div;
