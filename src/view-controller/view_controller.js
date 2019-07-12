@@ -30,12 +30,29 @@ const printOrder = () => {
   for(let i=0; i<arrOrder.length; i++){
     let row = tbody.insertRow(i);
     let productCell = row.insertCell(0);
-    productCell.innerHTML=arrOrder[i].product;
     let priceCell = row.insertCell(1);
+    let removeCell = row.insertCell(2);
+    productCell.innerHTML=arrOrder[i].product;
     priceCell.innerHTML=`s/ ${arrOrder[i].price}.00`;
-    let remove = row.insertCell(2);
+    
+    const btnRemove = document.createElement('button');
+    btnRemove.id=`btnRemove-${i}`;
+    console.log(btnRemove);
+    btnRemove.className='icon fas fa-trash-alt';
+    btnRemove.type='button';
+   /*  btnRemove.textContent=`<i class="fas fa-trash-alt"></i>`; */
+    removeCell.appendChild(btnRemove);
     
   }
+  
+}
+const removeOrder = () => {
+  const btnRemove = document.querySelector(`#btnRemove-${i}`);
+  btnRemove.addEventListener('click', () => {
+    const cowsRow = tbody.rows.length
+    Console.log(cowsRow);
+  })
+
 }
 
 export const readBody = (query) => {
