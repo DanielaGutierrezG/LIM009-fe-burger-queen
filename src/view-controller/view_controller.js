@@ -33,6 +33,8 @@ const printOrder = () => {
     productCell.innerHTML=arrOrder[i].product;
     let priceCell = row.insertCell(1);
     priceCell.innerHTML=`s/ ${arrOrder[i].price}.00`;
+    let remove = row.insertCell(2);
+    
   }
 }
 

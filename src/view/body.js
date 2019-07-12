@@ -22,6 +22,7 @@ export default (name) => {
                 <tr>
                     <th>Producto</th>
                     <th>Precio</th>
+                    <th></th>
                 </tr>
             </thead>
             <tboby>
