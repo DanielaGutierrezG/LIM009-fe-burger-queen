@@ -1,5 +1,5 @@
 import { components } from '../view-controller/index.js'
-import {readBody, totalList } from '../view-controller/view_controller.js'
+import {readBody, saveOrderList } from '../view-controller/view_controller.js'
 import { readData } from '../firestore.js';
 export const changehash = (hash) => {
     window.location.hash = hash;
@@ -29,7 +29,7 @@ export const changeView = (route) => {
             main.appendChild(components.body(nombre));
             readData('menumañana', (query) => {
                readBody(query);
-               totalList();
+               saveOrderList();
             });
             
             break;

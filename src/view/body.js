@@ -8,17 +8,34 @@ export default (name) => {
         CLIENTE : ${name}
     </header>
     
-    <div class = "col-sm-6" id='btns'>
+    <div class = "" id='btns'>
         <button id= 'breakfast'>Desayuno</button>
         <button id= 'lunch'>Almuerzo y cena</button>
         <button id= 'additional'>Extras</button>
     </div>
 
     <div id="containerBody" class=''></div>
-    <form class = "col-sm-6" id="pedidos">
-        <ul id="productsList"></ul>
-        <div id='priceList'></div>
-    </form>
+    <div id='containerTable'>
+        <h2>Tu lista de Pedidos</h2>
+        <table id="tableOrder">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                </tr>
+            </thead>
+            <tboby>
+                <tr>
+                </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+              <td>TOTAL</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+    </div>
    `;
 
     div.innerHTML = tmp2;
