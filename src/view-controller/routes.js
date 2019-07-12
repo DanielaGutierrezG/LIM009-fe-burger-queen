@@ -1,6 +1,7 @@
 import { components } from '../view-controller/index.js'
 import {readBody, saveOrderList } from '../view-controller/view_controller.js'
 import { readData } from '../firestore.js';
+
 export const changehash = (hash) => {
     window.location.hash = hash;
 }
