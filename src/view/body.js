@@ -1,4 +1,4 @@
-import { readBody } from '../view-controller/view_controller.js'
+import { readBody,saveOrderList } from '../view-controller/view_controller.js'
 import { readData } from '../firestore.js'
 
 export default (name) => {
@@ -45,6 +45,7 @@ export default (name) => {
     btnBreakfast.addEventListener('click', () => {
         readData('menumañana', (query) => {
             readBody(query);
+            saveOrderList();
         });
     })
 
@@ -52,12 +53,14 @@ export default (name) => {
     btnLunch.addEventListener('click', () => {
         readData('menutarde', (query) => {
             readBody(query);
+            saveOrderList();
         }); 
     })
     const btnAdditional = div.querySelector('#additional');
     btnAdditional.addEventListener('click', () => {
         readData('extras', (query) => {
             readBody(query);
+            saveOrderList();
         });
     })    
     return div;
