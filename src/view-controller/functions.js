@@ -55,8 +55,8 @@ const removeOrder = () => {
 
 }
 
-export const readBody = (query) => {
-  const container = document.getElementById('containerBody');
+export const readWaiter = (query) => {
+  const container = document.getElementById('containerWaiter');
   console.log(container);
   container.innerHTML = "";
   query.forEach((doc) => {

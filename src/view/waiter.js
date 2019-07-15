@@ -1,12 +1,14 @@
-import { readBody } from '../view-controller/view_controller.js'
+import { readWaiter } from '../view-controller/functions.js'
 import { readData } from '../firestore.js'
 
-export default (name) => {
+export default () => {
     const div = document.createElement('div');
     const tmp2 = `
-    <header class = "col-sm-12"> 
-  <input id="name" type="text" placeholder="Nombre Cliente"/>
-  <button id="addClient">¡Entrar!</button>
+    <div class="waiter">
+    <div class="containerbuttons">
+    <header> 
+  <input id="name" type="text" class="input" placeholder="Nombre Cliente"/>
+  <button id="addClient" class="btn">OK</button>
     </header>
     
     <div class = "" id='btns'>
@@ -14,11 +16,13 @@ export default (name) => {
         <button id= 'lunch'>Almuerzo y cena</button>
         <button id= 'additional'>Extras</button>
     </div>
+    <div id="containerWaiter"></div>
+    </div>
 
-    <div id="containerBody" class=''></div>
-    <div id='containerTable'>
-        <h2 id ="nameClient"></h2>
-        <table id="tableOrder">
+    <div class="containerOrders">
+        <div id='containerTable'>
+            <h3 class ="name" id ="nameClient"></h3>
+        <table id="tableOrder" class="table">
             <thead>
                 <tr>
                     <th>Producto</th>
@@ -32,11 +36,12 @@ export default (name) => {
             </tbody>
             <tfoot>
             <tr>
-              <td>TOTAL</td>
+              <td>TOTAL: $</td>
               <td></td>
             </tr>
           </tfoot>
         </table>
+    </div>
     </div>
    `;
 
@@ -53,20 +58,20 @@ export default (name) => {
     const btnBreakfast = div.querySelector('#breakfast');
     btnBreakfast.addEventListener('click', () => {
         readData('menumañana', (query) => {
-            readBody(query);
+            readWaiter(query);
         });
     })
 
     const btnLunch = div.querySelector('#lunch');
     btnLunch.addEventListener('click', () => {
         readData('menutarde', (query) => {
-            readBody(query);
+            readWaiter(query);
         }); 
     })
     const btnAdditional = div.querySelector('#additional');
     btnAdditional.addEventListener('click', () => {
         readData('extras', (query) => {
-            readBody(query);
+            readWaiter(query);
         });
     })    
     return div;

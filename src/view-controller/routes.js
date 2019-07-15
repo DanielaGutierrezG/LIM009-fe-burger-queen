@@ -1,5 +1,5 @@
 import { components } from '../view-controller/index.js'
-import {readBody, saveOrderList } from '../view-controller/view_controller.js'
+import {readWaiter, saveOrderList } from '../view-controller/functions.js'
 import { readData } from '../firestore.js';
 export const changehash = (hash) => {
     window.location.hash = hash;
@@ -12,7 +12,7 @@ export const changeTmp = (hash) => {
         return changeView('#/body');
     }   */
     else {
-        return changeView('#/body')
+        return changeView('#/waiter')
     }
 } 
 
@@ -24,18 +24,18 @@ export const changeView = (route) => {
             main.appendChild(components.home());
             break;
         }
-        case '#/body': {
+        case '#/waiter': {
             var nombre = sessionStorage.getItem("Nombre"); 
-            main.appendChild(components.body(nombre));
+            main.appendChild(components.waiter(nombre));
             readData('menumañana', (query) => {
-               readBody(query);
+               readWaiter(query);
                saveOrderList();
             });
             
             break;
         }
         default: {
-            main.appendChild(components.body())
+            main.appendChild(components.waiter())
         }
            
     }
