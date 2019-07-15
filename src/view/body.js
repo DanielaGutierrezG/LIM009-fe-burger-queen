@@ -4,8 +4,9 @@ import { readData } from '../firestore.js'
 export default (name) => {
     const div = document.createElement('div');
     const tmp2 = `
-    <header class = "col-sm-12">
-        CLIENTE : ${name}
+    <header class = "col-sm-12"> 
+  <input id="name" type="text" placeholder="Nombre Cliente"/>
+  <button id="addClient">¡Entrar!</button>
     </header>
     
     <div class = "" id='btns'>
@@ -16,7 +17,7 @@ export default (name) => {
 
     <div id="containerBody" class=''></div>
     <div id='containerTable'>
-        <h2>Tu lista de Pedidos</h2>
+        <h2 id ="nameClient"></h2>
         <table id="tableOrder">
             <thead>
                 <tr>
@@ -40,6 +41,14 @@ export default (name) => {
    `;
 
     div.innerHTML = tmp2;
+
+    div.querySelector('#addClient')
+     .addEventListener('click', () => {
+         let name = document.getElementById('name').value;
+         let nameClient = document.getElementById('nameClient');
+         nameClient.innerHTML = `Cliente : ${name}`
+    
+     })
     
     const btnBreakfast = div.querySelector('#breakfast');
     btnBreakfast.addEventListener('click', () => {
