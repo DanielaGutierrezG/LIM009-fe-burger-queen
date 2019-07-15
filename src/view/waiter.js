@@ -1,4 +1,4 @@
-import { readWaiter } from '../view-controller/functions.js'
+import { readWaiter, saveOrderList  } from '../view-controller/functions.js'
 import { readData } from '../firestore.js'
 
 export default () => {
@@ -59,6 +59,7 @@ export default () => {
     btnBreakfast.addEventListener('click', () => {
         readData('menumañana', (query) => {
             readWaiter(query);
+            saveOrderList();
         });
     })
 
@@ -66,12 +67,14 @@ export default () => {
     btnLunch.addEventListener('click', () => {
         readData('menutarde', (query) => {
             readWaiter(query);
+            saveOrderList();
         }); 
     })
     const btnAdditional = div.querySelector('#additional');
     btnAdditional.addEventListener('click', () => {
         readData('extras', (query) => {
             readWaiter(query);
+            saveOrderList();
         });
     })    
     return div;
