@@ -5,5 +5,5 @@ export default () =>{
 
   div.innerHTML = tmp1;
 
-  return div
+  return div //
 };
