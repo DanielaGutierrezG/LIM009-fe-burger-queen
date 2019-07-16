@@ -1,4 +1,4 @@
-import { readWaiter, saveOrderList  } from '../view-controller/functions.js'
+import { readWaiter,saveOrderList } from '../view-controller/functions.js'
 import { readData } from '../firestore.js'
 
 export default () => {
@@ -36,8 +36,8 @@ export default () => {
             </tbody>
             <tfoot>
             <tr>
-              <td>TOTAL: $</td>
-              <td></td>
+              <td>TOTAL: S/.</td>
+              <td id="total"></td>
             </tr>
           </tfoot>
         </table>
@@ -79,4 +79,3 @@ export default () => {
     })    
     return div;
 };
-

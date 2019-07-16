@@ -1,5 +1,5 @@
 import { components } from '../view-controller/index.js'
-import {readWaiter, saveOrderList } from '../view-controller/functions.js'
+import {readWaiter, saveOrderList} from './functions.js'
 import { readData } from '../firestore.js';
 export const changehash = (hash) => {
     window.location.hash = hash;
@@ -37,7 +37,6 @@ export const changeView = (route) => {
         default: {
             main.appendChild(components.waiter())
         }
-           
     }
 }
 
