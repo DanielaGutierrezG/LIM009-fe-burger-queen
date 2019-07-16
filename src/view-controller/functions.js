@@ -18,22 +18,15 @@ export const saveOrderList = () => {
     const product = e.target.textContent.substring(0, e.target.textContent.lastIndexOf ('s'));
     const price = e.target.dataset.price;
     addOrderArr(product, price);
-    
     printOrder();
-    
-    /* sessionStorage.setItem("Producto", product);
-    sessionStorage.setItem("Precio", price); */
   }))
 }  
 
 const printOrder = () => {
   const tbody = document.querySelector('#tableOrder tbody')
-  console.log(tbody);
   tbody.innerHTML= '';
   for(let i=0; i<arrOrder.length; i++){
     let row = tbody.insertRow(i);
-   /*  row.id=`id-${i}`; */
-    console.log(row);
     let productCell = row.insertCell(0);
     let priceCell = row.insertCell(1);
     let removeCell = row.insertCell(2);
@@ -42,18 +35,12 @@ const printOrder = () => {
     
     const btnRemove = document.createElement('button');
     btnRemove.setAttribute('data-id', `${i}` )
-    /* btnRemove.id=`btn-${i}`; */
-    console.log(btnRemove);
     btnRemove.className='icon fas fa-trash-alt';
     btnRemove.type='button';
    /*  btnRemove.textContent=`<i class="fas fa-trash-alt"></i>`; */
     removeCell.appendChild(btnRemove);
-    
-    
   }
   removeOrder();
-   console.log('pasó remove');
- /*  removeOrder(); */
 }
 
 export const removeOrder = () => {
@@ -63,32 +50,6 @@ export const removeOrder = () => {
     console.log(table);
     console.log(e.target.dataset.id);
     printOrder();
-
-
-
-    /* table.deleteRow(parseInt(e.target.dataset.id))
-
-    console.log(arrOrder); */
-    
-    /* console.log(typeof e.target.dataset.id);
-   
-    ;
-    console.log(table);
-   
-    console.log(arrOrder); */
-    /* const textTd=arrOrder.find( element => element.product === table ); 
-    console.log(arrOrder.indexOf(textTd)); */
-
-    
-    /*  console.log(table);
-    table.remove();
-    console.log(arrOrder);
-    console.log(e.target.id) */
-    /* ; */
-    
-    
-   /*  const cowsRow = tbody.rows.length
-    Console.log(cowsRow); */
   }))
 
 }

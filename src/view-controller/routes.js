@@ -37,7 +37,6 @@ export const changeView = (route) => {
         default: {
             main.appendChild(components.body())
         }
-           
     }
 }
 
