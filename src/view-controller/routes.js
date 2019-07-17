@@ -1,4 +1,5 @@
-import { components } from '../view-controller/index.js'
+import { components } from './index.js'
+
 import {readWaiter, saveOrderList} from './functions.js'
 import { readData } from '../firestore.js';
 export const changehash = (hash) => {

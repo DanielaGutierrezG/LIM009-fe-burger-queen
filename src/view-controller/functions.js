@@ -13,34 +13,24 @@ const addOrderArr = (producValue, priceValue) => {
   return arrOrder;
 }
 
-let arrPrice=[];
-const sumPrice = (priceValue) => {
-
-  arrPrice.push(parseInt(priceValue));
-
-  const suma = arrPrice.reduce(((a,b) => a + b),0);
-
-  const tfoot = document.querySelector("#total");
-  console.log(suma)
-  tfoot.innerHTML= suma;
-
-  return sumPrice;
-  
-}
-
 export const saveOrderList = () => {
   document.querySelectorAll(".btnProduct").forEach(btn => btn.addEventListener('click', (e) => {
     const product = e.target.textContent.substring(0, e.target.textContent.lastIndexOf ('s'));
     const price = e.target.dataset.price;
     addOrderArr(product, price);
-    sumPrice(price);
     printOrder();
   }))
 }  
 
 const printOrder = () => {
-  const tbody = document.querySelector('#tableOrder tbody')
+  const tbody = document.querySelector('#tableOrder tbody');
+  const tfoot = document.querySelector("#total");
+  const blockSubmit = document.querySelector("#blockSubmit")
+  const selectbtnSubmit = document.querySelector('#submit');
+  selectbtnSubmit !== null ? selectbtnSubmit.remove() : '';
   tbody.innerHTML= '';
+  tfoot.innerHTML = 's/ 0.00';
+  let total=0;
   for(let i=0; i<arrOrder.length; i++){
     let row = tbody.insertRow(i);
     let productCell = row.insertCell(0);
@@ -48,26 +38,26 @@ const printOrder = () => {
     let removeCell = row.insertCell(2);
     productCell.innerHTML=arrOrder[i].product;
     priceCell.innerHTML=`s/ ${arrOrder[i].price}.00`;
+    total+=Number(arrOrder[i].price);
+    tfoot.innerHTML= `s/ ${total}.00`;
     const btnRemove = document.createElement('button');
     btnRemove.setAttribute('data-id', `${i}` )
     btnRemove.className='icon fas fa-trash-alt';
     btnRemove.type='button';
    /*  btnRemove.textContent=`<i class="fas fa-trash-alt"></i>`; */
     removeCell.appendChild(btnRemove);
-    
   }
-   const suma = arrPrice.reduce(((a,b) => a + b),0);
-   const tfoot = document.querySelector("#total");
-   tfoot.innerHTML= suma;
-
-   removeOrder();
+  const btnSubmit = document.createElement('button');
+  btnSubmit.setAttribute('id', 'submit');
+  btnSubmit.setAttribute('type', 'button');
+  btnSubmit.textContent='Enviar a cocina';
+  blockSubmit.appendChild(btnSubmit);
+  removeOrder();
 }
 
 export const removeOrder = () => {
   document.querySelectorAll('.icon').forEach(btn => btn.addEventListener('click', (e) => {
     arrOrder.splice(parseInt(e.target.dataset.id), 1); 
-    arrPrice.splice(parseInt(e.target.dataset.id), 1);
-
     printOrder();
   }))
 
@@ -75,6 +65,7 @@ export const removeOrder = () => {
 
 export const readWaiter = (query) => {
   const container = document.getElementById('containerWaiter');
+
   container.innerHTML = "";
   query.forEach((doc) => {
     const obj = {
@@ -87,4 +78,4 @@ export const readWaiter = (query) => {
     container.innerHTML += `<button class='btnProduct' data-price=${obj.price}>${obj.producprecio}</button>`
 
   }) 
-}
+} //
