@@ -78,4 +78,4 @@ export const readWaiter = (query) => {
     container.innerHTML += `<button class='btnProduct' data-price=${obj.price}>${obj.producprecio}</button>`
 
   }) 
-}
+} //
