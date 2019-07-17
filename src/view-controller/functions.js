@@ -13,21 +13,6 @@ const addOrderArr = (producValue, priceValue) => {
   return arrOrder;
 }
 
-let arrPrice=[];
-const sumPrice = (priceValue) => {
-
-  arrPrice.push(parseInt(priceValue));
-
-  const suma = arrPrice.reduce(((a,b) => a + b),0);
-
-  const tfoot = document.querySelector("#total");
-  console.log(suma)
-  tfoot.innerHTML= suma;
-
-  return sumPrice;
-  
-}
-
 export const saveOrderList = () => {
   document.querySelectorAll(".btnProduct").forEach(btn => btn.addEventListener('click', (e) => {
     const product = e.target.textContent.substring(0, e.target.textContent.lastIndexOf ('s'));
@@ -38,8 +23,14 @@ export const saveOrderList = () => {
 }  
 
 const printOrder = () => {
-  const tbody = document.querySelector('#tableOrder tbody')
+  const tbody = document.querySelector('#tableOrder tbody');
+  const tfoot = document.querySelector("#total");
+  const blockSumit = document.querySelector("#blockSumit")
+  const selectbtnSumit = document.querySelector('#submit');
+  selectbtnSumit !== null ? selectbtnSumit.remove() : '';
   tbody.innerHTML= '';
+  tfoot.innerHTML = 's/ 0.00';
+  let total=0;
   for(let i=0; i<arrOrder.length; i++){
     let row = tbody.insertRow(i);
     let productCell = row.insertCell(0);
@@ -47,6 +38,8 @@ const printOrder = () => {
     let removeCell = row.insertCell(2);
     productCell.innerHTML=arrOrder[i].product;
     priceCell.innerHTML=`s/ ${arrOrder[i].price}.00`;
+    total+=Number(arrOrder[i].price);
+    tfoot.innerHTML= `s/ ${total}.00`;
     const btnRemove = document.createElement('button');
     btnRemove.setAttribute('data-id', `${i}` )
     btnRemove.className='icon fas fa-trash-alt';
@@ -54,15 +47,17 @@ const printOrder = () => {
    /*  btnRemove.textContent=`<i class="fas fa-trash-alt"></i>`; */
     removeCell.appendChild(btnRemove);
   }
+  const btnSubmit = document.createElement('button');
+  btnSubmit.setAttribute('id', 'submit');
+  btnSubmit.setAttribute('type', 'button');
+  btnSubmit.textContent='Enviar a cocina';
+  blockSumit.appendChild(btnSubmit);
   removeOrder();
 }
 
 export const removeOrder = () => {
   document.querySelectorAll('.icon').forEach(btn => btn.addEventListener('click', (e) => {
     arrOrder.splice(parseInt(e.target.dataset.id), 1); 
-    const table = document.querySelector('#tableOrder tbody');
-    console.log(table);
-    console.log(e.target.dataset.id);
     printOrder();
   }))
 

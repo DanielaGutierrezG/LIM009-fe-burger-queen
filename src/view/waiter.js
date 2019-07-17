@@ -36,11 +36,12 @@ export default () => {
             </tbody>
             <tfoot>
             <tr>
-              <td>TOTAL: S/.</td>
-              <td id="total"></td>
+              <td>TOTAL: </td>
+              <td id="total">s/ 0.00</td>
             </tr>
           </tfoot>
         </table>
+        <div id="blockSumit" class=''></div>
     </div>
     </div>
    `;
