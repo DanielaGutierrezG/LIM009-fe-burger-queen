@@ -41,7 +41,7 @@ export default () => {
             </tr>
           </tfoot>
         </table>
-        <div id="blockSumit" class=''></div>
+        <div id="blockSubmit" class=''></div>
     </div>
     </div>
    `;

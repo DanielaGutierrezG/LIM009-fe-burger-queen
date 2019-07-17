@@ -25,9 +25,9 @@ export const saveOrderList = () => {
 const printOrder = () => {
   const tbody = document.querySelector('#tableOrder tbody');
   const tfoot = document.querySelector("#total");
-  const blockSumit = document.querySelector("#blockSumit")
-  const selectbtnSumit = document.querySelector('#submit');
-  selectbtnSumit !== null ? selectbtnSumit.remove() : '';
+  const blockSubmit = document.querySelector("#blockSubmit")
+  const selectbtnSubmit = document.querySelector('#submit');
+  selectbtnSubmit !== null ? selectbtnSubmit.remove() : '';
   tbody.innerHTML= '';
   tfoot.innerHTML = 's/ 0.00';
   let total=0;
@@ -51,7 +51,7 @@ const printOrder = () => {
   btnSubmit.setAttribute('id', 'submit');
   btnSubmit.setAttribute('type', 'button');
   btnSubmit.textContent='Enviar a cocina';
-  blockSumit.appendChild(btnSubmit);
+  blockSubmit.appendChild(btnSubmit);
   removeOrder();
 }
 
