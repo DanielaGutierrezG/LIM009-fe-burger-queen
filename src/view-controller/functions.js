@@ -4,9 +4,6 @@ const addOrderArr = (producValue, priceValue) => {
   const obj = {
     product : producValue,
     price : priceValue,
-    get producprecio() {
-      return this.product + `<br>s/ ${this.price}.00`;
-    }
   }
   arrOrder.push(obj);
  

@@ -43,12 +43,28 @@ $blanco: #e6e6e6;
 }
 
 .btn {
-    padding: 3px 10px;
-    background: $naranja;
-    color: black;
-    text-align: center;
+    padding: 8px 15px;
     border-radius: 8px;
     margin: 1%;
+}
+
+.btns {
+    padding: 13px 22px;
+    margin: 2%;
+    border-radius: 10px;
+}
+
+.btns:focus {
+    background:$naranja;
+}
+
+.btnProduct {
+    border-radius: 5px;
+    margin: 1%
+}
+
+.btnProduct:active {
+    color:$naranja;
 }
 
 .name {
@@ -63,5 +79,17 @@ $blanco: #e6e6e6;
     margin: 15px;
 }
 
+.header {
+    height: 70px;
+    display: flex;
+    background-color: #ff5722;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.img2 {
+    height: 50px;
+}
 
 

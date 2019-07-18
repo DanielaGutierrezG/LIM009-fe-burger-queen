@@ -33,12 +33,28 @@
 }
 
 .btn {
-  padding: 3px 10px;
-  background: #ff5722;
-  color: black;
-  text-align: center;
+  padding: 8px 15px;
   border-radius: 8px;
   margin: 1%;
+}
+
+.btns {
+  padding: 13px 22px;
+  margin: 2%;
+  border-radius: 10px;
+}
+
+.btns:focus {
+  background: #ff5722;
+}
+
+.btnProduct {
+  border-radius: 5px;
+  margin: 1%;
+}
+
+.btnProduct:active {
+  color: #ff5722;
 }
 
 .name {
@@ -51,6 +67,19 @@
 
 .table {
   margin: 15px;
+}
+
+.header {
+  height: 70px;
+  display: flex;
+  background-color: #ff5722;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.img2 {
+  height: 50px;
 }
 
 /*# sourceMappingURL=main.css.map */
