@@ -6,6 +6,7 @@ export default () => {
     const tmp2 = `
     <header class="header"><img class="img2" src="../images/logo2.png" alt="logo"></header>
     <div class="waiter">
+    <div class="general">
     <div class="containerbuttons">
     <div> 
   <input id="name" type="text" class="input" placeholder="Nombre Cliente"/>
@@ -18,6 +19,7 @@ export default () => {
         <button class="btns" id='additional'>Extras</button>
     </div>
     <div id="containerWaiter"></div>
+    </div>
     </div>
 
     <div class="containerOrders">

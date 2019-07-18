@@ -9,11 +9,12 @@ export const changehash = (hash) => {
 export const changeTmp = (hash) => {
     if (hash === '#/' || hash === '' || hash === '#') {
         return changeView('#/home');
-    } /* else if ( hash === '#/body' ){
-        return changeView('#/body');
-    }   */
+
+    }  else if ( hash === '#/waiter' ){
+        return changeView('#/waiter');
+    }   
     else {
-        return changeView('#/waiter')
+        return changeView('#/chef')
     }
 } 
 
@@ -39,7 +40,7 @@ export const changeView = (route) => {
             break;
         }
         default: {
-            main.appendChild(components.waiter())
+            main.appendChild(components.home())
         }
     }
 }

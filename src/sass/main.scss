@@ -1,5 +1,9 @@
 $naranja: #ff5722;
 $blanco: #e6e6e6;
+$azul: #121435;
+
+@import url('https://fonts.googleapis.com/css?family=Rajdhani&display=swap');
+*{font-family: 'Rajdhani', sans-serif;}
 
 @mixin df {
     display: flex;
@@ -35,7 +39,7 @@ $blanco: #e6e6e6;
 .input {
     outline: none;
     background: $blanco;
-    margin-bottom: 7px;
+    margin-bottom: 1px;
     height: 15px;
     padding: 10px 35px;
     border-radius: 15px;
@@ -46,12 +50,17 @@ $blanco: #e6e6e6;
     padding: 8px 15px;
     border-radius: 8px;
     margin: 1%;
+    background-color: white;
 }
 
 .btns {
+    width: 32.333333%;
+    float: left;
     padding: 13px 22px;
-    margin: 2%;
-    border-radius: 10px;
+    border: 0;
+    background-color: white;
+    border: solid 1px #999;
+    font-size: 18px;
 }
 
 .btns:focus {
@@ -59,8 +68,12 @@ $blanco: #e6e6e6;
 }
 
 .btnProduct {
+    border: 0;
+    background-color: white;
     border-radius: 5px;
-    margin: 1%
+    margin: 1%;
+    border-color: $azul;
+    font-size: 18px;
 }
 
 .btnProduct:active {
@@ -68,28 +81,38 @@ $blanco: #e6e6e6;
 }
 
 .name {
-    margin: 15px;
+    margin: 8px;
     color: $blanco;
-    background: #121435;
+    background: $azul;
     border-radius: 15px;
     padding: 8px;
 }
 
 .table {
-    margin: 15px;
+    margin: 1px;
 }
 
 .header {
-    height: 70px;
+    height: 65px;
     display: flex;
     background-color: #ff5722;
     align-items: center;
     justify-content: center;
-    width: 100%;
 }
 
 .img2 {
     height: 50px;
 }
 
+body {
+    margin: 1px;
+    background: black;
+}
 
+td {
+    color: #e6e6e6;
+}
+
+.general {
+    width: 100%;
+}
