@@ -2,7 +2,7 @@ import { readWaiter,saveOrderList } from '../view-controller/functions.js'
 import { readData } from '../firestore.js'
 
 export default () => {
-    const div = document.createElement('div');
+    const div = document.createElement('div'); //
     const tmp2 = `
     <header class="header"><img class="img2" src="../images/logo2.png" alt="logo"></header>
     <div class="waiter">
