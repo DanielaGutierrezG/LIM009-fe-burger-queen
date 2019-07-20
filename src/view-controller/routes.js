@@ -26,8 +26,8 @@ export const changeView = (route) => {
             break;
         }
         case '#/waiter': {
-            var nombre = sessionStorage.getItem("Nombre"); 
-            main.appendChild(components.waiter(nombre));
+            /* var nombre = sessionStorage.getItem("Nombre");  */
+            main.appendChild(components.waiter());
             readData('menumañana', (query) => {
                readWaiter(query);
                saveOrderList();

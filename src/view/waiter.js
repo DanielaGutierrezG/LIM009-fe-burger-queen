@@ -51,8 +51,11 @@ export default () => {
     div.querySelector('#addClient')
      .addEventListener('click', () => {
          let name = document.getElementById('name').value;
+         sessionStorage.setItem("Nombre", name);
+         document.getElementById("name").value = "";
          let nameClient = document.getElementById('nameClient');
-         nameClient.innerHTML = `Cliente : ${name}`
+         let printName = sessionStorage.getItem("Nombre")
+         nameClient.innerHTML = `Cliente : ${printName}`
     
      })
     
