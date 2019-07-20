@@ -9,11 +9,12 @@ export const changehash = (hash) => {
 export const changeTmp = (hash) => {
     if (hash === '#/' || hash === '' || hash === '#') {
         return changeView('#/home');
-    } /* else if ( hash === '#/body' ){
-        return changeView('#/body');
-    }   */
+
+    }  else if ( hash === '#/waiter' ){
+        return changeView('#/waiter');
+    }   
     else {
-        return changeView('#/waiter')
+        return changeView('#/chef')
     }
 } 
 
@@ -26,7 +27,6 @@ export const changeView = (route) => {
             break;
         }
         case '#/waiter': {
-            /* var nombre = sessionStorage.getItem("Nombre");  */
             main.appendChild(components.waiter());
             readData('menumañana', (query) => {
                readWaiter(query);
@@ -35,8 +35,12 @@ export const changeView = (route) => {
             
             break;
         }
+        case '#/chef': { 
+            main.appendChild(components.chef());
+            break;
+        }
         default: {
-            main.appendChild(components.waiter())
+            main.appendChild(components.home())
         }
     }
 }

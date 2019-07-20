@@ -4,19 +4,22 @@ import { readData } from '../firestore.js'
 export default () => {
     const div = document.createElement('div');
     const tmp2 = `
+    <header class="header"><img class="img2" src="../images/logo2.png" alt="logo"></header>
     <div class="waiter">
+    <div class="general">
     <div class="containerbuttons">
-    <header> 
+    <div> 
   <input id="name" type="text" class="input" placeholder="Nombre Cliente"/>
   <button id="addClient" class="btn">OK</button>
-    </header>
+    </div>
     
-    <div class = "" id='btns'>
-        <button id= 'breakfast'>Desayuno</button>
-        <button id= 'lunch'>Almuerzo y cena</button>
-        <button id= 'additional'>Extras</button>
+    <div id='btns'>
+        <button class="btns" id='breakfast'>Desayuno</button>
+        <button class="btns" id='lunch'>Almuerzo y cena</button>
+        <button class="btns" id='additional'>Extras</button>
     </div>
     <div id="containerWaiter"></div>
+    </div>
     </div>
 
     <div class="containerOrders">

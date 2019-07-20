@@ -1,3 +1,8 @@
+@import url("https://fonts.googleapis.com/css?family=Rajdhani&display=swap");
+* {
+  font-family: "Rajdhani", sans-serif;
+}
+
 .home {
   display: flex;
   flex-direction: column;
@@ -25,7 +30,7 @@
 .input {
   outline: none;
   background: #e6e6e6;
-  margin-bottom: 7px;
+  margin-bottom: 1px;
   height: 15px;
   padding: 10px 35px;
   border-radius: 15px;
@@ -33,16 +38,41 @@
 }
 
 .btn {
-  padding: 3px 10px;
-  background: #ff5722;
-  color: black;
-  text-align: center;
+  padding: 8px 15px;
   border-radius: 8px;
   margin: 1%;
+  background-color: white;
+}
+
+.btns {
+  width: 32.333333%;
+  float: left;
+  padding: 13px 22px;
+  border: 0;
+  background-color: white;
+  border: solid 1px #999;
+  font-size: 18px;
+}
+
+.btns:focus {
+  background: #ff5722;
+}
+
+.btnProduct {
+  border: 0;
+  background-color: white;
+  border-radius: 5px;
+  margin: 1%;
+  border-color: #121435;
+  font-size: 18px;
+}
+
+.btnProduct:active {
+  color: #ff5722;
 }
 
 .name {
-  margin: 15px;
+  margin: 8px;
   color: #e6e6e6;
   background: #121435;
   border-radius: 15px;
@@ -50,7 +80,32 @@
 }
 
 .table {
-  margin: 15px;
+  margin: 1px;
+}
+
+.header {
+  height: 65px;
+  display: flex;
+  background-color: #ff5722;
+  align-items: center;
+  justify-content: center;
+}
+
+.img2 {
+  height: 50px;
+}
+
+body {
+  margin: 1px;
+  background: black;
+}
+
+td {
+  color: #e6e6e6;
+}
+
+.general {
+  width: 100%;
 }
 
 /*# sourceMappingURL=main.css.map */
