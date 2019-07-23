@@ -1,33 +1,37 @@
 import { databaseOrder } from '../firestore.js'
 
-let orderList = [];
 export const saveOrderList = () => {
-  document.querySelectorAll(".btnProduct").forEach(btn => btn.addEventListener('click', (e) => {
-    let id = e.target.dataset.id;
+  document.querySelectorAll(".btnProduct").forEach(btn => btn.addEventListener('click', () => {  
+    console.log(btn);
+
+    const idi = btn.dataset.id;
     const arrObj = JSON.parse(sessionStorage.getItem('arrList'));
     let obj = arrObj.filter(element => {
-      return element.id === id;
+      return element.id === idi;
     })
+    console.log(obj)
     let arrListOrder = JSON.parse(sessionStorage.getItem('arrListOrder'));
-    if (arrListOrder !== null) {
-      if (arrListOrder.map(e => e.id).indexOf(id) !== -1) {
+    if (arrListOrder) {
+      console.log(arrListOrder);
+      if (arrListOrder.map(e => e.id).indexOf(idi) !== -1) {
       }
       else {
-        orderList.push(obj[0]);
-        sessionStorage.setItem('arrListOrder', JSON.stringify(orderList));
-        printOrder()
+        arrListOrder.push(obj[0])
+       sessionStorage.setItem('arrListOrder', JSON.stringify(arrListOrder));
+        printOrder(); 
       }
     }
     else {
-      orderList.push(obj[0]);
-      sessionStorage.setItem('arrListOrder', JSON.stringify(orderList));
-      printOrder()
+      sessionStorage.setItem('arrListOrder', JSON.stringify(obj));
+      printOrder(); 
     }
   }))
 }
 
+
 const printOrder = () => {
-  let arrListOrder = JSON.parse(sessionStorage.getItem('arrListOrder'));
+  let arrListOrder = JSON.parse(sessionStorage.getItem('arrListOrder')); 
+  console.log(arrListOrder);
   const tbody = document.querySelector('#tableOrder tbody');
   const tfoot = document.querySelector("#total");
   const blockSubmit = document.querySelector("#blockSubmit")
@@ -36,14 +40,14 @@ const printOrder = () => {
   tbody.innerHTML = '';
   tfoot.innerHTML = 's/ 0.00';
   let total = 0;
-  /* if (arrListOrder !== null) { */
+   if (arrListOrder !== null) { 
     for (let i = 0; i < arrListOrder.length; i++) {
       let row = tbody.insertRow(i);
       let productCell = row.insertCell(0);
       let priceCell = row.insertCell(1);
       let removeCell = row.insertCell(2);
       productCell.innerHTML = arrListOrder[i].product;
-      priceCell.innerHTML = `s/ ${arrListOrder[i].price}.00`;
+      priceCell.innerHTML = `s/ ${arrListOrder[i].price}.00`; //agrgar funcion que varie con el contador
 
       total += Number(arrListOrder[i].price);
       tfoot.innerHTML = `s/ ${total}.00`;
@@ -73,22 +77,25 @@ const printOrder = () => {
     btnSubmit.setAttribute('type', 'button');
     btnSubmit.textContent = 'Enviar a cocina';
     blockSubmit.appendChild(btnSubmit);
-
+    console.log(arrListOrder);
     sum(arrListOrder);
     subtra(arrListOrder);
     sendOrder(arrListOrder);
- /*  } */
+  } 
 }
 
 const sum = (arrObj) => {
-  document.querySelectorAll(".sum").forEach(btn => btn.addEventListener('click', (e) => {
-    let id = e.target.dataset.id;
-    let obj = arrObj.filter(elemet => {
+  document.querySelectorAll(".sum").forEach(btn => btn.addEventListener('click', () => {
+    let id = btn.dataset.id;
+    let obj = arrObj.find(elemet => {
       return elemet.id === id;
     })
-    const valueP = obj[0].quantity;
-    let newValueP = valueP + 1;
-    obj[0].quantity = newValueP;
+    const valueQuant = obj.quantity;
+    let newValueQuant = valueQuant + 1;
+    obj.quantity = newValueQuant;
+    const valuePrice = obj.price;
+    let newValuePrice = valuePrice + (valuePrice/valueQuant);
+    obj.price = newValuePrice;
     sessionStorage.setItem('arrListOrder', JSON.stringify(arrObj));
     printOrder();
   })
@@ -96,27 +103,31 @@ const sum = (arrObj) => {
 }
 
 const subtra = (arrObj) => {
-  document.querySelectorAll(".subtra").forEach(btn => btn.addEventListener('click', (e) => {
-    let id = e.target.dataset.id;
-    let obj = arrObj.filter(elemet => {
+  document.querySelectorAll(".subtra").forEach(btn => btn.addEventListener('click', () => {
+    let id = btn.dataset.id;
+    let obj = arrObj.find(elemet => {
       return elemet.id === id;
     })
-    const valueP = obj[0].quantity;
-    let newValueP = valueP - 1;
-    obj[0].quantity = newValueP;
-    if (newValueP === 0) {
+    const valueQuant = obj.quantity
+    let newValueQuant = valueQuant - 1;
+    obj.quantity = newValueQuant;
+    if (obj.quantity === 0) {
       let newArrObj = arrObj.filter(elemet => {
         return elemet.id !== id;
       })
+
       sessionStorage.setItem('arrListOrder', JSON.stringify(newArrObj));
       printOrder();
     }
     else {
+      const valuePrice = obj.price;
+      let newValuePrice = valuePrice - (valuePrice/valueQuant);
+      obj.price = newValuePrice;
       sessionStorage.setItem('arrListOrder', JSON.stringify(arrObj));
       printOrder();
     }
-  })
-  )
+  }))
+  arrObj.length === 0 ? sessionStorage.removeItem('arrListOrder') : ''; 
 }
 
 export const readWaiter = (query) => {
@@ -144,8 +155,9 @@ export const readWaiter = (query) => {
 
 const sendOrder = (arrObj) => {
   const selectbtnSubmit = document.querySelector('#submit');
-  let nombre = sessionStorage.getItem("Nombre")
+  const nameClient = document.getElementById('nameClient');
   selectbtnSubmit.addEventListener('click', () => {
+    let nombre = sessionStorage.getItem('Nombre')
     const obj = {
       name: nombre,
       order: arrObj,
@@ -153,12 +165,9 @@ const sendOrder = (arrObj) => {
       time:name,  */
     }
     databaseOrder(obj);
-    sessionStorage.removeItem('arrListOrder');
-    sessionStorage.removeItem('Nombre');
-    document.getElementById('nameClient').textContent = '';
-    const tbody = document.querySelector('#tableOrder tbody');
-  const tfoot = document.querySelector("#total");
-    tbody.innerHTML = '';
-  tfoot.innerHTML = 's/ 0.00';
+    nameClient.innerHTML=''
+    sessionStorage.removeItem('Nombre')
+    sessionStorage.removeItem('arrListOrder')
+    printOrder();
   })
 }
