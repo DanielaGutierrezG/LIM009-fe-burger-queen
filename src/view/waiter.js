@@ -2,7 +2,7 @@ import { readWaiter,saveOrderList } from '../view-controller/functions.js'
 import { readData } from '../firestore.js'
 
 export default () => {
-    const div = document.createElement('div');
+    const div = document.createElement('div'); 
     const tmp2 = `
     <header class="header"><img class="img2" src="../images/logo2.png" alt="logo"></header>
     <div class="waiter">
@@ -54,8 +54,11 @@ export default () => {
     div.querySelector('#addClient')
      .addEventListener('click', () => {
          let name = document.getElementById('name').value;
+         sessionStorage.setItem("Nombre", name);
+         document.getElementById("name").value = "";
          let nameClient = document.getElementById('nameClient');
-         nameClient.innerHTML = `Cliente : ${name}`
+         let printName = sessionStorage.getItem("Nombre")
+         nameClient.innerHTML = `Cliente : ${printName}`
     
      })
     
