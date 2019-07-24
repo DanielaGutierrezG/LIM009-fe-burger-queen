@@ -1,6 +1,7 @@
 import { databaseOrder } from '../firestore.js'
 
 export const saveOrderList = () => {
+  console.log('pasó');
   document.querySelectorAll(".btnProduct").forEach(btn => btn.addEventListener('click', () => {  
     console.log(btn);
 
@@ -29,7 +30,7 @@ export const saveOrderList = () => {
 }
 
 
-const printOrder = () => {
+export const printOrder = () => {
   let arrListOrder = JSON.parse(sessionStorage.getItem('arrListOrder')); 
   console.log(arrListOrder);
   const tbody = document.querySelector('#tableOrder tbody');

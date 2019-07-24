@@ -1,6 +1,6 @@
 import { components } from './index.js'
 
-import {readWaiter, saveOrderList} from './functions.js'
+import {readWaiter, saveOrderList, printOrder} from './functions.js'
 import { readData } from '../firestore.js';
 export const changehash = (hash) => {
     window.location.hash = hash;
@@ -29,8 +29,11 @@ export const changeView = (route) => {
         case '#/waiter': {
             main.appendChild(components.waiter());
             readData('menumañana', (query) => {
+                console.log(query);
                readWaiter(query);
+               printOrder();
                saveOrderList();
+               
             });
             
             break;
