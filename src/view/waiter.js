@@ -18,7 +18,7 @@ export default () => {
         <button class="btns" id='lunch'>Almuerzo y cena</button>
         <button class="btns" id='additional'>Extras</button>
     </div>
-    <div id="containerWaiter"></div>
+    <div class="contw" id="containerWaiter"></div>
     </div>
     </div>
 

@@ -139,11 +139,12 @@ export const readWaiter = (query) => {
       id: doc.id,
       product: doc.data().Producto,
       price: doc.data().Precio,
+      image: doc.data().Imagen,
       type: doc.data().tipo,
       extra: doc.data().adicional,
       quantity: 1,
       get producprecio() {
-        return this.product + `<br>s/ ${this.price}.00`;
+        return `<img class="image" src="${this.image}">` + this.product + `<br>s/ ${this.price}.00`;
       }
     }
     arrList.push(obj);
