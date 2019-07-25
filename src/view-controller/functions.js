@@ -86,6 +86,7 @@ export const printOrder = () => {
     }
     const btnSubmit = document.createElement('button');
     btnSubmit.setAttribute('id', 'submit');
+    btnSubmit.setAttribute('class', 'submit');
     btnSubmit.setAttribute('type', 'button');
     btnSubmit.textContent = 'Enviar a cocina';
     blockSubmit.appendChild(btnSubmit);
@@ -150,11 +151,12 @@ export const readWaiter = (query) => {
       id: doc.id,
       product: doc.data().Producto,
       price: doc.data().Precio,
+      image: doc.data().Imagen,
       type: doc.data().tipo,
       extra: doc.data().adicional,
       quantity: 1,
       get producprecio() {
-        return `${this.product} <br/> s/ ${this.price}.00`;
+        return `<img class="image" src="${this.image}">` + this.product + `<br>s/ ${this.price}.00`;
       }
     }
     arrList.push(obj);

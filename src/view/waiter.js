@@ -8,9 +8,9 @@ export default () => {
     <div class="waiter">
     <div class="general">
     <div class="containerbuttons">
-    <div> 
+    <div class="contName"> 
   <input id="name" type="text" class="input" placeholder="Nombre Cliente"/>
-  <button id="addClient" class="btn">OK</button>
+  <button id="addClient" class="input">OK</button>
     </div>
     
     <div id='btns'>
@@ -18,9 +18,9 @@ export default () => {
         <button class="btns" id='lunch'>Almuerzo y cena</button>
         <button class="btns" id='additional'>Extras</button>
     </div>
-    <div id="containerWaiter"></div>
+    <div class="contw" id="containerWaiter"></div>
         <div id="btnTypes"></div>
-    </div>
+
     </div>
 
     <div class="containerOrders">
@@ -45,7 +45,7 @@ export default () => {
             </tr>
           </tfoot>
         </table>
-        <div id="blockSubmit" class=''></div>
+        <div id="blockSubmit"></div>
     </div>
     </div>
    `;
