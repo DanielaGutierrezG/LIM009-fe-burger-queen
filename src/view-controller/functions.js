@@ -75,6 +75,7 @@ export const printOrder = () => {
     }
     const btnSubmit = document.createElement('button');
     btnSubmit.setAttribute('id', 'submit');
+    btnSubmit.setAttribute('class', 'submit');
     btnSubmit.setAttribute('type', 'button');
     btnSubmit.textContent = 'Enviar a cocina';
     blockSubmit.appendChild(btnSubmit);
