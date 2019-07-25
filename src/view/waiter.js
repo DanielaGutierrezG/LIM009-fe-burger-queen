@@ -19,6 +19,7 @@ export default () => {
         <button class="btns" id='additional'>Extras</button>
     </div>
     <div id="containerWaiter"></div>
+        <div id="btnTypes"></div>
     </div>
     </div>
 

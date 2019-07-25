@@ -2,15 +2,26 @@ import { databaseOrder } from '../firestore.js'
 
 export const saveOrderList = () => {
   console.log('pasó');
-  document.querySelectorAll(".btnProduct").forEach(btn => btn.addEventListener('click', () => {  
+  document.querySelectorAll(".btnProduct").forEach(btn => btn.addEventListener('click', () => {
     console.log(btn);
-
     const idi = btn.dataset.id;
     const arrObj = JSON.parse(sessionStorage.getItem('arrList'));
     let obj = arrObj.filter(element => {
       return element.id === idi;
     })
-    console.log(obj)
+    console.log(obj);
+    console.log(obj[0].type);
+    obj[0].type.forEach((e) => {
+      const containerbtnTypes = document.querySelector('#prueba');
+
+      console.log(e);
+      const btnType = document.createElement('button');
+      console.log(btnType);
+      btnType.type = 'button';
+      btnType.textContent = e;
+      containerbtnTypes.appendChild(btnType);
+      console.log(containerbtnTypes);
+    }) 
     let arrListOrder = JSON.parse(sessionStorage.getItem('arrListOrder'));
     if (arrListOrder) {
       console.log(arrListOrder);
@@ -18,20 +29,20 @@ export const saveOrderList = () => {
       }
       else {
         arrListOrder.push(obj[0])
-       sessionStorage.setItem('arrListOrder', JSON.stringify(arrListOrder));
-        printOrder(); 
+        sessionStorage.setItem('arrListOrder', JSON.stringify(arrListOrder));
+        printOrder();
       }
     }
     else {
       sessionStorage.setItem('arrListOrder', JSON.stringify(obj));
-      printOrder(); 
+      printOrder();
     }
   }))
 }
 
 
 export const printOrder = () => {
-  let arrListOrder = JSON.parse(sessionStorage.getItem('arrListOrder')); 
+  let arrListOrder = JSON.parse(sessionStorage.getItem('arrListOrder'));
   console.log(arrListOrder);
   const tbody = document.querySelector('#tableOrder tbody');
   const tfoot = document.querySelector("#total");
@@ -41,14 +52,14 @@ export const printOrder = () => {
   tbody.innerHTML = '';
   tfoot.innerHTML = 's/ 0.00';
   let total = 0;
-   if (arrListOrder !== null) { 
+  if (arrListOrder !== null) {
     for (let i = 0; i < arrListOrder.length; i++) {
       let row = tbody.insertRow(i);
       let productCell = row.insertCell(0);
       let priceCell = row.insertCell(1);
       let removeCell = row.insertCell(2);
       productCell.innerHTML = arrListOrder[i].product;
-      priceCell.innerHTML = `s/ ${arrListOrder[i].price}.00`; //agrgar funcion que varie con el contador
+      priceCell.innerHTML = `s/ ${arrListOrder[i].price}.00`; 
 
       total += Number(arrListOrder[i].price);
       tfoot.innerHTML = `s/ ${total}.00`;
@@ -82,7 +93,7 @@ export const printOrder = () => {
     sum(arrListOrder);
     subtra(arrListOrder);
     sendOrder(arrListOrder);
-  } 
+  }
 }
 
 const sum = (arrObj) => {
@@ -95,7 +106,7 @@ const sum = (arrObj) => {
     let newValueQuant = valueQuant + 1;
     obj.quantity = newValueQuant;
     const valuePrice = obj.price;
-    let newValuePrice = valuePrice + (valuePrice/valueQuant);
+    let newValuePrice = valuePrice + (valuePrice / valueQuant);
     obj.price = newValuePrice;
     sessionStorage.setItem('arrListOrder', JSON.stringify(arrObj));
     printOrder();
@@ -116,19 +127,18 @@ const subtra = (arrObj) => {
       let newArrObj = arrObj.filter(elemet => {
         return elemet.id !== id;
       })
-
       sessionStorage.setItem('arrListOrder', JSON.stringify(newArrObj));
       printOrder();
     }
     else {
       const valuePrice = obj.price;
-      let newValuePrice = valuePrice - (valuePrice/valueQuant);
+      let newValuePrice = valuePrice - (valuePrice / valueQuant);
       obj.price = newValuePrice;
       sessionStorage.setItem('arrListOrder', JSON.stringify(arrObj));
       printOrder();
     }
   }))
-  arrObj.length === 0 ? sessionStorage.removeItem('arrListOrder') : ''; 
+  arrObj.length === 0 ? sessionStorage.removeItem('arrListOrder') : '';
 }
 
 export const readWaiter = (query) => {
@@ -144,11 +154,23 @@ export const readWaiter = (query) => {
       extra: doc.data().adicional,
       quantity: 1,
       get producprecio() {
-        return this.product + `<br>s/ ${this.price}.00`;
+        return `${this.product} <br/> s/ ${this.price}.00`;
       }
     }
     arrList.push(obj);
-    container.innerHTML += `<button class='btnProduct' data-id=${obj.id} data-price=${obj.price}>${obj.producprecio}</button>`
+    const containerbtn = document.createElement('div');
+    containerbtn.setAttribute('id', 'prueba');
+    containerbtn.setAttribute('data-id', `${obj.id}`);
+    const btnProduct = document.createElement('button');
+    btnProduct.setAttribute('class', 'btnProduct');
+    btnProduct.setAttribute('data-id', `${obj.id}`);
+    btnProduct.setAttribute('data-price', `${obj.price}`);
+    btnProduct.innerHTML = obj.producprecio;
+
+    containerbtn.appendChild(btnProduct);
+    container.appendChild(containerbtn);
+
+    /* container.innerHTML += `<button class='btnProduct' data-id=${obj.id} data-price=${obj.price}>${obj.producprecio}</button>` */
   })
   sessionStorage.setItem('arrList', JSON.stringify(arrList));
 }
@@ -166,7 +188,7 @@ const sendOrder = (arrObj) => {
       time:name,  */
     }
     databaseOrder(obj);
-    nameClient.innerHTML=''
+    nameClient.innerHTML = ''
     sessionStorage.removeItem('Nombre')
     sessionStorage.removeItem('arrListOrder')
     printOrder();
