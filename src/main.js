@@ -12,10 +12,6 @@ import { init } from './view-controller/routes.js'
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 
-
-
-
-
 window.addEventListener('load', () => {
   init()
 });

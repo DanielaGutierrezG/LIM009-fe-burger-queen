@@ -33,9 +33,7 @@ export const changeView = (route) => {
                readWaiter(query);
                printOrder();
                saveOrderList();
-               
             });
-            
             break;
         }
         case '#/chef': { 
