@@ -1,8 +1,8 @@
-import { readWaiter,saveOrderList } from '../view-controller/functions.js'
+import { readWaiter, saveOrderList } from '../view-controller/functions.js'
 import { readData } from '../firestore.js'
 
 export default () => {
-    const div = document.createElement('div'); 
+    const div = document.createElement('div');
     const tmp2 = `
     <header class="header"><img class="img2" src="../images/logo2.png" alt="logo"></header>
     <div class="waiter">
@@ -16,10 +16,10 @@ export default () => {
     <div id='btns'>
         <button class="btns" id='breakfast'>Desayuno</button>
         <button class="btns" id='lunch'>Almuerzo y cena</button>
-        <button class="btns" id='additional'>Extras</button>
     </div>
     <div class="contw" id="containerWaiter"></div>
-    </div>
+        <div id="btnTypes"></div>
+
     </div>
 
     <div class="containerOrders">
@@ -51,17 +51,14 @@ export default () => {
 
     div.innerHTML = tmp2;
 
-    div.querySelector('#addClient')
-     .addEventListener('click', () => {
-         let name = document.getElementById('name').value;
-         sessionStorage.setItem("Nombre", name);
-         document.getElementById("name").value = "";
-         let nameClient = document.getElementById('nameClient');
-         let printName = sessionStorage.getItem("Nombre")
-         nameClient.innerHTML = `Cliente : ${printName}`
-    
-     })
-    
+    div.querySelector('#addClient').addEventListener('click', () => {
+        let name = document.getElementById('name').value;
+        sessionStorage.setItem("Nombre", name);
+        const nameClient = document.getElementById('nameClient');
+        nameClient.innerHTML = `Cliente : ${name}`;
+        document.getElementById("name").value = "";
+    })
+
     const btnBreakfast = div.querySelector('#breakfast');
     btnBreakfast.addEventListener('click', () => {
         readData('menumañana', (query) => {
@@ -75,14 +72,7 @@ export default () => {
         readData('menutarde', (query) => {
             readWaiter(query);
             saveOrderList();
-        }); 
-    })
-    const btnAdditional = div.querySelector('#additional');
-    btnAdditional.addEventListener('click', () => {
-        readData('extras', (query) => {
-            readWaiter(query);
-            saveOrderList();
         });
-    })    
+    })
     return div;
 };

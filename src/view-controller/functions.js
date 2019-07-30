@@ -1,38 +1,101 @@
 import { databaseOrder } from '../firestore.js'
 
 export const saveOrderList = () => {
-  console.log('pasó');
-  document.querySelectorAll(".btnProduct").forEach(btn => btn.addEventListener('click', () => {  
-    console.log(btn);
-
-    const idi = btn.dataset.id;
+  document.querySelectorAll(".btnProduct").forEach(btn => btn.addEventListener('click', () => {
+    const idBtn = btn.dataset.id;
     const arrObj = JSON.parse(sessionStorage.getItem('arrList'));
     let obj = arrObj.filter(element => {
-      return element.id === idi;
+      return element.id === idBtn;
     })
-    console.log(obj)
     let arrListOrder = JSON.parse(sessionStorage.getItem('arrListOrder'));
-    if (arrListOrder) {
-      console.log(arrListOrder);
-      if (arrListOrder.map(e => e.id).indexOf(idi) !== -1) {
-      }
-      else {
-        arrListOrder.push(obj[0])
-       sessionStorage.setItem('arrListOrder', JSON.stringify(arrListOrder));
-        printOrder(); 
-      }
+    const containerbtnTypes = document.querySelector('#containerbtnTypes');
+    containerbtnTypes !== null ? containerbtnTypes.remove() : '';
+    if (obj[0].type) {
+      let containerbtn = document.querySelector(`#id-${idBtn}`);
+      const containerbtnTypes = document.createElement('div');
+      containerbtnTypes.setAttribute('id', 'containerbtnTypes');
+      containerbtn.appendChild(containerbtnTypes);
+      const description = document.createElement('p');
+      description.textContent = 'tipo de hamburguesa';
+      containerbtnTypes.appendChild(description);
+      obj[0].type.forEach((e) => {
+        const btnType = document.createElement('button');
+        btnType.setAttribute('class', 'btnType');
+        btnType.type = 'button';
+        btnType.value = e;
+        btnType.textContent = e;
+        containerbtnTypes.appendChild(btnType);
+      });
+      const descriptionExtra = document.createElement('p');
+      descriptionExtra.textContent = 'Extras (s/ 1.00 adicional)';
+      containerbtnTypes.appendChild(descriptionExtra);
+      obj[0].extra.forEach((e) => {
+        const btnExtra = document.createElement('button');
+        btnExtra.setAttribute('class', 'btnExtra');
+        btnExtra.type = 'button';
+        btnExtra.value = e;
+        btnExtra.textContent = e;
+        containerbtnTypes.appendChild(btnExtra);
+      });
+      const br = document.createElement('br');
+      const btnAdd = document.createElement('button');
+      btnAdd.setAttribute('id', 'btnAdd');
+      btnAdd.type = 'button';
+      btnAdd.textContent = 'Agregar';
+      containerbtnTypes.appendChild(br);
+      containerbtnTypes.appendChild(btnAdd);
+      obj[0].type = '';
+      obj[0].extra = '';
+
+      document.querySelectorAll(".btnType").forEach(btn => btn.addEventListener('click', () => {
+        obj[0].type = btn.value;
+      }))
+      document.querySelectorAll(".btnExtra").forEach(btn => btn.addEventListener('click', () => {
+        obj[0].extra = btn.value;
+      }))
+      document.querySelector('#btnAdd').addEventListener('click', () => {
+        obj[0].extra === '' ? delete obj[0].extra : obj[0].price = obj[0].price + 1;
+        if (obj[0].type) {
+          if (arrListOrder) {
+            if (arrListOrder.findIndex(e => e.type === obj[0].type && e.extra === obj[0].extra) !== -1) {
+            }
+            else {
+              arrListOrder.push(obj[0]);
+              sessionStorage.setItem('arrListOrder', JSON.stringify(arrListOrder));
+              printOrder();
+            }
+          }
+          else {
+            sessionStorage.setItem('arrListOrder', JSON.stringify(obj));
+            printOrder();
+          }
+          containerbtnTypes.remove();
+        }
+      })
     }
     else {
-      sessionStorage.setItem('arrListOrder', JSON.stringify(obj));
-      printOrder(); 
+      if (arrListOrder) {
+        if (arrListOrder.map(e => e.id).indexOf(idBtn) !== -1) {
+        }
+        else {
+          arrListOrder.push(obj[0]);
+          sessionStorage.setItem('arrListOrder', JSON.stringify(arrListOrder));
+          printOrder();
+        }
+      }
+      else {
+        sessionStorage.setItem('arrListOrder', JSON.stringify(obj));
+        printOrder();
+      }
     }
   }))
 }
 
-
 export const printOrder = () => {
-  let arrListOrder = JSON.parse(sessionStorage.getItem('arrListOrder')); 
-  console.log(arrListOrder);
+  const nameClient = document.getElementById('nameClient');
+  const printName = sessionStorage.getItem("Nombre");
+  nameClient.innerHTML = `Cliente : ${printName}`;
+  let arrListOrder = JSON.parse(sessionStorage.getItem('arrListOrder'));
   const tbody = document.querySelector('#tableOrder tbody');
   const tfoot = document.querySelector("#total");
   const blockSubmit = document.querySelector("#blockSubmit")
@@ -41,14 +104,15 @@ export const printOrder = () => {
   tbody.innerHTML = '';
   tfoot.innerHTML = 's/ 0.00';
   let total = 0;
-   if (arrListOrder !== null) { 
+  if (arrListOrder) {
     for (let i = 0; i < arrListOrder.length; i++) {
       let row = tbody.insertRow(i);
       let productCell = row.insertCell(0);
       let priceCell = row.insertCell(1);
       let removeCell = row.insertCell(2);
-      productCell.innerHTML = arrListOrder[i].product;
-      priceCell.innerHTML = `s/ ${arrListOrder[i].price}.00`; //agrgar funcion que varie con el contador
+      productCell.innerHTML = arrListOrder[i].extra !== undefined ? arrListOrder[i].product + ' ' + arrListOrder[i].type + ' con ' + arrListOrder[i].extra : arrListOrder[i].type !== undefined ? arrListOrder[i].product + ' ' + arrListOrder[i].type : arrListOrder[i].product;
+
+      priceCell.innerHTML = `s/ ${arrListOrder[i].price}.00`;
 
       total += Number(arrListOrder[i].price);
       tfoot.innerHTML = `s/ ${total}.00`;
@@ -61,11 +125,13 @@ export const printOrder = () => {
 
       const btnSubtra = document.createElement('button');
       btnSubtra.setAttribute('data-id', `${arrListOrder[i].id}`)
+      btnSubtra.setAttribute('data-i', `${i}`)
       btnSubtra.className = 'subtra fas fa-minus';
       btnSubtra.type = 'button';
 
       const btnSum = document.createElement('button');
       btnSum.setAttribute('data-id', `${arrListOrder[i].id}`)
+      btnSum.setAttribute('data-i', `${i}`);
       btnSum.className = 'sum fas fa-plus';
       btnSum.type = 'button';
 
@@ -79,24 +145,20 @@ export const printOrder = () => {
     btnSubmit.setAttribute('type', 'button');
     btnSubmit.textContent = 'Enviar a cocina';
     blockSubmit.appendChild(btnSubmit);
-    console.log(arrListOrder);
     sum(arrListOrder);
     subtra(arrListOrder);
     sendOrder(arrListOrder);
-  } 
+  }
 }
 
 const sum = (arrObj) => {
   document.querySelectorAll(".sum").forEach(btn => btn.addEventListener('click', () => {
-    let id = btn.dataset.id;
-    let obj = arrObj.find(elemet => {
-      return elemet.id === id;
-    })
+    let obj = arrObj[btn.dataset.i];
     const valueQuant = obj.quantity;
     let newValueQuant = valueQuant + 1;
     obj.quantity = newValueQuant;
     const valuePrice = obj.price;
-    let newValuePrice = valuePrice + (valuePrice/valueQuant);
+    let newValuePrice = valuePrice + (valuePrice / valueQuant);
     obj.price = newValuePrice;
     sessionStorage.setItem('arrListOrder', JSON.stringify(arrObj));
     printOrder();
@@ -105,31 +167,28 @@ const sum = (arrObj) => {
 }
 
 const subtra = (arrObj) => {
+  const btnSubmit = document.querySelector('#submit');
   document.querySelectorAll(".subtra").forEach(btn => btn.addEventListener('click', () => {
-    let id = btn.dataset.id;
-    let obj = arrObj.find(elemet => {
-      return elemet.id === id;
-    })
+    let i = btn.dataset.i
+    let obj = arrObj[i];
     const valueQuant = obj.quantity
     let newValueQuant = valueQuant - 1;
     obj.quantity = newValueQuant;
     if (obj.quantity === 0) {
-      let newArrObj = arrObj.filter(elemet => {
-        return elemet.id !== id;
-      })
-
-      sessionStorage.setItem('arrListOrder', JSON.stringify(newArrObj));
+      arrObj.splice(i, 1);
+      sessionStorage.setItem('arrListOrder', JSON.stringify(arrObj));
       printOrder();
     }
     else {
       const valuePrice = obj.price;
-      let newValuePrice = valuePrice - (valuePrice/valueQuant);
+      let newValuePrice = valuePrice - (valuePrice / valueQuant);
       obj.price = newValuePrice;
       sessionStorage.setItem('arrListOrder', JSON.stringify(arrObj));
       printOrder();
     }
   }))
-  arrObj.length === 0 ? sessionStorage.removeItem('arrListOrder') : ''; 
+  arrObj.length === 0 ? (sessionStorage.removeItem('arrListOrder'),
+    btnSubmit.remove()) : ('');
 }
 
 export const readWaiter = (query) => {
@@ -150,27 +209,38 @@ export const readWaiter = (query) => {
       }
     }
     arrList.push(obj);
-    container.innerHTML += `<button class='btnProduct' data-id=${obj.id} data-price=${obj.price}>${obj.producprecio}</button>`
+    const containerbtn = document.createElement('div');
+    containerbtn.setAttribute('id', `id-${obj.id}`);
+    containerbtn.setAttribute('data-id', `${obj.id}`);
+    const btnProduct = document.createElement('button');
+    btnProduct.setAttribute('class', 'btnProduct');
+    btnProduct.setAttribute('data-id', `${obj.id}`);
+    btnProduct.setAttribute('data-price', `${obj.price}`);
+    btnProduct.innerHTML = obj.producprecio;
+
+    containerbtn.appendChild(btnProduct);
+    container.appendChild(containerbtn);
   })
   sessionStorage.setItem('arrList', JSON.stringify(arrList));
 }
 
-
 const sendOrder = (arrObj) => {
   const selectbtnSubmit = document.querySelector('#submit');
   const nameClient = document.getElementById('nameClient');
-  selectbtnSubmit.addEventListener('click', () => {
-    let nombre = sessionStorage.getItem('Nombre')
-    const obj = {
-      name: nombre,
-      order: arrObj,
-      /* condition:jj,
-      time:name,  */
-    }
-    databaseOrder(obj);
-    nameClient.innerHTML=''
-    sessionStorage.removeItem('Nombre')
-    sessionStorage.removeItem('arrListOrder')
-    printOrder();
-  })
+  if (selectbtnSubmit) {
+    selectbtnSubmit.addEventListener('click', () => {
+      let nombre = sessionStorage.getItem('Nombre')
+      const obj = {
+        name: nombre,
+        order: arrObj,
+        /* condition:jj,
+        time:name,  */
+      }
+      databaseOrder(obj);
+      nameClient.innerHTML = ''
+      sessionStorage.removeItem('Nombre')
+      sessionStorage.removeItem('arrListOrder')
+      printOrder();
+    })
+  }
 }
