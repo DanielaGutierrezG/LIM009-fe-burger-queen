@@ -1,7 +1,7 @@
 import { databaseOrder } from '../firestore.js'
 
 export const saveOrderList = () => {
-  document.querySelectorAll(".btnProduct").forEach(btn => btn.addEventListener('click', () => {
+  document.querySelectorAll(".btnProduct").forEach(btn => btn.addEventListener('click', (e) => {
     const idBtn = btn.dataset.id;
     const arrObj = JSON.parse(sessionStorage.getItem('arrList'));
     let obj = arrObj.filter(element => {
@@ -58,6 +58,7 @@ export const saveOrderList = () => {
         if (obj[0].type) {
           if (arrListOrder) {
             if (arrListOrder.findIndex(e => e.type === obj[0].type && e.extra === obj[0].extra) !== -1) {
+              clickCounter(arrListOrder, arrListOrder.findIndex(e => e.type === obj[0].type && e.extra === obj[0].extra)); 
             }
             else {
               arrListOrder.push(obj[0]);
@@ -76,6 +77,7 @@ export const saveOrderList = () => {
     else {
       if (arrListOrder) {
         if (arrListOrder.map(e => e.id).indexOf(idBtn) !== -1) {
+          clickCounter(arrListOrder, arrListOrder.map(e => e.id).indexOf(idBtn));
         }
         else {
           arrListOrder.push(obj[0]);
@@ -94,7 +96,7 @@ export const saveOrderList = () => {
 export const printOrder = () => {
   const nameClient = document.getElementById('nameClient');
   const printName = sessionStorage.getItem("Nombre");
-  nameClient.innerHTML = `Cliente : ${printName}`;
+  nameClient.innerHTML = `Cliente : ${printName ? printName : ''}`;
   let arrListOrder = JSON.parse(sessionStorage.getItem('arrListOrder'));
   const tbody = document.querySelector('#tableOrder tbody');
   const tfoot = document.querySelector("#total");
@@ -109,7 +111,8 @@ export const printOrder = () => {
       let row = tbody.insertRow(i);
       let productCell = row.insertCell(0);
       let priceCell = row.insertCell(1);
-      let removeCell = row.insertCell(2);
+      let counterCell = row.insertCell(2);
+      let removeCell = row.insertCell(3);
       productCell.innerHTML = arrListOrder[i].extra !== undefined ? arrListOrder[i].product + ' ' + arrListOrder[i].type + ' con ' + arrListOrder[i].extra : arrListOrder[i].type !== undefined ? arrListOrder[i].product + ' ' + arrListOrder[i].type : arrListOrder[i].product;
 
       priceCell.innerHTML = `s/ ${arrListOrder[i].price}.00`;
@@ -130,14 +133,23 @@ export const printOrder = () => {
       btnSubtra.type = 'button';
 
       const btnSum = document.createElement('button');
-      btnSum.setAttribute('data-id', `${arrListOrder[i].id}`)
+      btnSum.setAttribute('data-id', `${arrListOrder[i].id}`);
       btnSum.setAttribute('data-i', `${i}`);
       btnSum.className = 'sum fas fa-plus';
       btnSum.type = 'button';
 
-      removeCell.appendChild(btnSubtra);
-      removeCell.appendChild(quantityP);
-      removeCell.appendChild(btnSum);
+      counterCell.appendChild(btnSubtra);
+      counterCell.appendChild(quantityP);
+      counterCell.appendChild(btnSum);
+
+      const btnRemove = document.createElement('button');
+      btnRemove.className='remove';
+      btnRemove.setAttribute('data-id', `${arrListOrder[i].id}`);
+      btnRemove.setAttribute('data-i', `${i}`);
+      btnRemove.innerHTML = `<i class="fas fa-trash-alt"></i>`;
+      btnRemove.type = 'button';
+
+      removeCell.appendChild(btnRemove);
     }
     const btnSubmit = document.createElement('button');
     btnSubmit.setAttribute('id', 'submit');
@@ -147,12 +159,14 @@ export const printOrder = () => {
     blockSubmit.appendChild(btnSubmit);
     sum(arrListOrder);
     subtra(arrListOrder);
+    removeCell(arrListOrder);
     sendOrder(arrListOrder);
   }
 }
 
 const sum = (arrObj) => {
   document.querySelectorAll(".sum").forEach(btn => btn.addEventListener('click', () => {
+
     let obj = arrObj[btn.dataset.i];
     const valueQuant = obj.quantity;
     let newValueQuant = valueQuant + 1;
@@ -169,9 +183,9 @@ const sum = (arrObj) => {
 const subtra = (arrObj) => {
   const btnSubmit = document.querySelector('#submit');
   document.querySelectorAll(".subtra").forEach(btn => btn.addEventListener('click', () => {
-    let i = btn.dataset.i
+    let i = btn.dataset.i;
     let obj = arrObj[i];
-    const valueQuant = obj.quantity
+    const valueQuant = obj.quantity;
     let newValueQuant = valueQuant - 1;
     obj.quantity = newValueQuant;
     if (obj.quantity === 0) {
@@ -190,6 +204,28 @@ const subtra = (arrObj) => {
   arrObj.length === 0 ? (sessionStorage.removeItem('arrListOrder'),
     btnSubmit.remove()) : ('');
 }
+
+const removeCell = (arrObj) => {
+  document.querySelectorAll('.remove').forEach(btn => btn.addEventListener('click', () => {
+    let i = btn.dataset.i;
+    arrObj.splice(i, 1);
+    sessionStorage.setItem('arrListOrder', JSON.stringify(arrObj))
+    printOrder();
+  }))
+}
+
+const clickCounter = (arr, i) => {
+  let obj = arr[i];
+  const valueQuant = obj.quantity;
+  let newValueQuant = valueQuant + 1;
+  obj.quantity = newValueQuant;
+  const valuePrice = obj.price;
+  let newValuePrice = valuePrice + (valuePrice / valueQuant);
+  obj.price = newValuePrice;
+  sessionStorage.setItem('arrListOrder', JSON.stringify(arr));
+  printOrder(); 
+}
+
 
 export const readWaiter = (query) => {
   const container = document.getElementById('containerWaiter');
@@ -227,20 +263,33 @@ export const readWaiter = (query) => {
 const sendOrder = (arrObj) => {
   const selectbtnSubmit = document.querySelector('#submit');
   const nameClient = document.getElementById('nameClient');
+
   if (selectbtnSubmit) {
     selectbtnSubmit.addEventListener('click', () => {
       let nombre = sessionStorage.getItem('Nombre')
       const obj = {
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        finalDate: firebase.firestore.FieldValue.serverTimestamp(),
         name: nombre,
         order: arrObj,
-        /* condition:jj,
-        time:name,  */
+        state: 'En preparación'
       }
       databaseOrder(obj);
-      nameClient.innerHTML = ''
-      sessionStorage.removeItem('Nombre')
-      sessionStorage.removeItem('arrListOrder')
+      sessionStorage.removeItem('Nombre');
+      sessionStorage.removeItem('arrListOrder');
+      nameClient.innerHTML = '';
       printOrder();
     })
   }
+}
+
+export const resetWaiter = () => {
+  const btnReset = document.querySelector('#btnResetWaiter');
+  btnReset.addEventListener('click', () => {
+    const nameClient = document.getElementById('nameClient');
+    sessionStorage.removeItem('Nombre');
+    sessionStorage.removeItem('arrListOrder');
+    nameClient.innerHTML = '';
+    printOrder();
+  })
 }
