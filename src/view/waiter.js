@@ -4,48 +4,53 @@ import { readData } from '../firestore.js'
 export default () => {
     const div = document.createElement('div');
     const tmp2 = `
-    <header class="header"><img class="img2" src="../images/logo2.png" alt="logo"></header>
+    <header class="header">
+        <img class="img2" src="../images/logo2.png" alt="logo">
+        <a href='#/chef'>Ver pedidos</a>
+    </header>
     <div class="waiter">
-    <div class="general">
-    <div class="containerbuttons">
-    <div class="contName"> 
-  <input id="name" type="text" class="input" placeholder="Nombre Cliente"/>
-  <button id="addClient" class="input">OK</button>
-    </div>
-    
-    <div id='btns'>
-        <button class="btns" id='breakfast'>Desayuno</button>
-        <button class="btns" id='lunch'>Almuerzo y cena</button>
-    </div>
-    <div class="contw" id="containerWaiter"></div>
-        <div id="btnTypes"></div>
+        <div class="general">
+            <div class="containerbuttons">
+                <div class="contName"> 
+                    <input id="name" type="text" class="input" placeholder="Nombre Cliente"/>
+                    <button id="addClient" class="input">OK</button>
+                </div>
+                <div id='btns'>
+                    <button class="btns" id='breakfast'>Desayuno</button>
+                    <button class="btns" id='lunch'>Almuerzo y cena</button>
+                </div>
+                <div class="contw" id="containerWaiter"></div>
+            </div>
 
-    </div>
-
-    <div class="containerOrders">
-        <div id='containerTable'>
-            <h3 class ="name" id ="nameClient"></h3>
-        <table id="tableOrder" class="table">
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Precio</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tboby>
-                <tr>
-                </tr>
-            </tbody>
-            <tfoot>
-            <tr>
-              <td>TOTAL: </td>
-              <td id="total">s/ 0.00</td>
-            </tr>
-          </tfoot>
-        </table>
-        <div id="blockSubmit"></div>
-    </div>
+            <div class="containerOrders">
+                <div id='containerTable'>
+                    <h3 class ="name" id ="nameClient"></h3>
+                    <table id="tableOrder" class="table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tboby>
+                            <tr></tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td>TOTAL: </td>
+                                <td id="total">s/ 0.00</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div id="blockSubmit"></div>
+            </div>
+            <div>
+                <button id='btnResetWaiter' type='button'>Limpiar</button>
+            </div>
+        </div>
     </div>
    `;
 
@@ -61,7 +66,7 @@ export default () => {
 
     const btnBreakfast = div.querySelector('#breakfast');
     btnBreakfast.addEventListener('click', () => {
-        readData('menumañana', (query) => {
+        readData('menumañana', 'Producto', (query) => {
             readWaiter(query);
             saveOrderList();
         });
@@ -69,7 +74,7 @@ export default () => {
 
     const btnLunch = div.querySelector('#lunch');
     btnLunch.addEventListener('click', () => {
-        readData('menutarde', (query) => {
+        readData('menutarde', 'Producto', (query) => {
             readWaiter(query);
             saveOrderList();
         });

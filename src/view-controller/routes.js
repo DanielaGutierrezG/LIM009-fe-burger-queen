@@ -1,7 +1,7 @@
 import { components } from './index.js'
-
-import {readWaiter, saveOrderList, printOrder} from './functions.js'
+import {readWaiter, saveOrderList, printOrder, resetWaiter} from './functions.js'
 import { readData } from '../firestore.js';
+import { readOrders} from '../view-controller/functionsChef.js'
 export const changehash = (hash) => {
     window.location.hash = hash;
 }
@@ -9,7 +9,6 @@ export const changehash = (hash) => {
 export const changeTmp = (hash) => {
     if (hash === '#/' || hash === '' || hash === '#') {
         return changeView('#/home');
-
     }  else if ( hash === '#/waiter' ){
         return changeView('#/waiter');
     }   
@@ -28,16 +27,20 @@ export const changeView = (route) => {
         }
         case '#/waiter': {
             main.appendChild(components.waiter());
-            readData('menumañana', (query) => {
-                console.log(query);
+            readData('menumañana', 'Producto', (query) => {
                readWaiter(query);
                printOrder();
                saveOrderList();
             });
+            resetWaiter();
             break;
         }
         case '#/chef': { 
             main.appendChild(components.chef());
+            readData('order', 'createdAt', (query) => {
+                readOrders(query);
+            })
+          
             break;
         }
         default: {
@@ -46,7 +49,7 @@ export const changeView = (route) => {
     }
 }
 
- export const init = () => {
+export const init = () => {
     window.addEventListener('load', changeTmp(window.location.hash));
     event.currentTarget.addEventListener('hashchange', () => {
       changeTmp(window.location.hash);
